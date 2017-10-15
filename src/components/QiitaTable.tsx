@@ -8,8 +8,10 @@ import {
   FlatListProperties,
   ActivityIndicator
 } from 'react-native';
+import QiitaTableCell from './QiitaTableCell';
 
 interface Props {
+  tag: string
 }
 
 interface State {
@@ -30,7 +32,7 @@ export default class QiitaTable extends React.Component<Props, State> {
   fetchArticlesList() {
     this.setState({isLoading: true});
 
-    return fetch('https://qiita.com//api/v2/tags/iOS/items')
+    return fetch('https://qiita.com//api/v2/tags/' + this.props.tag + '/items')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
@@ -58,7 +60,8 @@ export default class QiitaTable extends React.Component<Props, State> {
     return (
       <FlatList
         data={this.state.data}
-        renderItem={({item}) => <Text>{item.title}</Text>}
+        keyExtractor={(item: any, index: number) => item.id}
+        renderItem={({item}) => <QiitaTableCell item={item} />}
       />
     );
   }

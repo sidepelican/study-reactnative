@@ -32,7 +32,7 @@ export default class App extends React.Component<{}, {}> {
           {instructions}
         </Text>
         <Hello name="world" />
-        <QiitaTable />
+        <QiitaTable tag="iOS"/>
       </View>
     );
   }
