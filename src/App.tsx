@@ -4,13 +4,14 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import {
   Platform,
   StyleSheet,
   Text,
-  View,
+  View
 } from 'react-native';
+import Hello from './components/Hello'
 import QiitaTable from './components/QiitaTable'
 
 const instructions = Platform.select({
@@ -20,7 +21,7 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-export default class App extends Component<{}> {
+export default class App extends React.Component<{}, {}> {
   render() {
     return (
       <View style={styles.container}>
@@ -28,11 +29,9 @@ export default class App extends Component<{}> {
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
           {instructions}
         </Text>
+        <Hello name="world" />
         <QiitaTable />
       </View>
     );

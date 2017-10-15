@@ -1,18 +1,26 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import {
   Platform,
   StyleSheet,
   Text,
   View,
   FlatList,
+  FlatListProperties,
   ActivityIndicator
 } from 'react-native';
 
+interface Props {
+}
 
-export default class QiitaTable extends React.PureComponent {
+interface State {
+  isLoading: boolean,
+  data: ReadonlyArray<any>
+}
+
+export default class QiitaTable extends React.Component<Props, State> {
   state = {
     isLoading: false,
-    ds: [],
+    data: [],
   }
   
   componentDidMount() {
@@ -27,7 +35,7 @@ export default class QiitaTable extends React.PureComponent {
     .then((responseJson) => {
       this.setState({
         isLoading: false,
-        ds: responseJson,
+        data: responseJson,
       });
     })
     .catch((error) => {
@@ -37,8 +45,11 @@ export default class QiitaTable extends React.PureComponent {
   
   render() {
     if (this.state.isLoading) {
+      const styles: any = StyleSheet.create({
+        indicator: {flex: 1, paddingTop: 20}
+      });
       return (
-        <View style={{flex: 1, paddingTop: 20}}>
+        <View style={styles.indicator}>
           <ActivityIndicator />
         </View>
       );
@@ -46,10 +57,9 @@ export default class QiitaTable extends React.PureComponent {
 
     return (
       <FlatList
-        data={this.state.ds}
-        keyExtractor={(item, index) => index}
+        data={this.state.data}
         renderItem={({item}) => <Text>{item.title}</Text>}
-      /> 
+      />
     );
   }
 }
