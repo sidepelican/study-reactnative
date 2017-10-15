@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  GestureResponderEvent,
 } from 'react-native';
 
 const styles: any = StyleSheet.create({
@@ -39,16 +40,22 @@ const styles: any = StyleSheet.create({
 
 interface Props {
   item: any
+  onPressTitle?: (link: string)=>void
 }
 
 export default class QiitaTableCell extends React.Component<Props, {}> {
   render() {
-
     const tagNames = this.props.item.tags.map((tag: any)=> tag.name);
   
     return (
       <View style={styles.cell}>
-        <Text style={styles.title}>{this.props.item.title}</Text>
+        <Text style={styles.title}
+          onPress={() => {
+            if (this.props.onPressTitle) {
+              this.props.onPressTitle(this.props.item.url);
+            }
+          }}
+        >{this.props.item.title}</Text>
         <View style={styles.tags}>
           {tagNames.map((tagName: string) => (
             <View style={styles.tagText}>

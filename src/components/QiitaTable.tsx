@@ -6,7 +6,9 @@ import {
   View,
   FlatList,
   FlatListProperties,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal,
+  WebView,
 } from 'react-native';
 import QiitaTableCell from './QiitaTableCell';
 
@@ -16,13 +18,17 @@ interface Props {
 
 interface State {
   isLoading: boolean,
-  data: ReadonlyArray<any>
+  data: ReadonlyArray<any>,
+  showModal: boolean,
+  webviewUrl: string,
 }
 
 export default class QiitaTable extends React.Component<Props, State> {
   state = {
     isLoading: false,
     data: [],
+    showModal: false,
+    webviewUrl: "",
   }
   
   componentDidMount() {
@@ -44,6 +50,14 @@ export default class QiitaTable extends React.Component<Props, State> {
       console.error(error);
     });
   }
+
+  _onPressItem(url: string) {
+    const replace = /http:/;
+    this.setState({
+      showModal: true,
+      webviewUrl: url.replace(replace, "https:")
+    });
+  }
   
   render() {
     if (this.state.isLoading) {
@@ -58,11 +72,23 @@ export default class QiitaTable extends React.Component<Props, State> {
     }
 
     return (
-      <FlatList
-        data={this.state.data}
-        keyExtractor={(item: any, index: number) => item.id}
-        renderItem={({item}) => <QiitaTableCell item={item} />}
-      />
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.showModal}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+          <WebView source={{uri: this.state.webviewUrl}} />
+        </Modal>
+        <FlatList
+          data={this.state.data}
+          keyExtractor={(item: any, index: number) => item.id}
+          renderItem={({item}) => 
+            <QiitaTableCell item={item} onPressTitle={(url)=>this._onPressItem(url)} />
+          }
+        />
+      </View>
     );
   }
 }
