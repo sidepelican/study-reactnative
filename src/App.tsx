@@ -9,10 +9,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  StatusBar
 } from 'react-native';
-import Hello from './components/Hello'
 import QiitaTable from './components/QiitaTable'
+import TabScreens from './components/TabScreens'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -25,14 +26,11 @@ export default class App extends React.Component<{}, {}> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-        <Hello name="world" />
-        <QiitaTable tag="iOS"/>
+        <StatusBar
+          barStyle="dark-content"
+        />
+        <View style={{height: Platform.OS === "ios"? 20 : StatusBar.currentHeight}} />
+        <TabScreens />
       </View>
     );
   }

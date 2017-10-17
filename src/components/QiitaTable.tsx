@@ -13,7 +13,7 @@ import {
 import QiitaTableCell from './QiitaTableCell';
 
 interface Props {
-  tag: string
+  tabLabel: string
 }
 
 interface State {
@@ -38,7 +38,7 @@ export default class QiitaTable extends React.Component<Props, State> {
   fetchArticlesList() {
     this.setState({isLoading: true});
 
-    return fetch('https://qiita.com//api/v2/tags/' + this.props.tag + '/items')
+    return fetch('https://qiita.com//api/v2/tags/' + this.props.tabLabel + '/items')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
