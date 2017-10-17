@@ -58,7 +58,7 @@ export default class QiitaTableCell extends React.Component<Props, {}> {
         >{this.props.item.title}</Text>
         <View style={styles.tags}>
           {tagNames.map((tagName: string) => (
-            <View style={styles.tagText}>
+            <View key={tagName} style={styles.tagText}>
               <Text>{tagName}</Text>
             </View>
           ))}
