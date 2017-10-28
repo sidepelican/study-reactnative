@@ -1,16 +1,10 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import * as React from 'react';
 import {
   Platform,
   StyleSheet,
   Text,
   View,
-  StatusBar
+  StatusBar,
 } from 'react-native';
 import QiitaTable from './components/QiitaTable'
 import TabScreens from './components/TabScreens'
@@ -30,7 +24,7 @@ export default class App extends React.Component<{}, {}> {
           barStyle="dark-content"
         />
         <View style={{height: Platform.OS === "ios"? 20 : StatusBar.currentHeight}} />
-        <TabScreens />
+        <TabScreens/>
       </View>
     );
   }

@@ -7,28 +7,23 @@ import {
   FlatList,
   FlatListProperties,
   ActivityIndicator,
-  Modal,
-  WebView,
 } from 'react-native';
 import QiitaTableCell from './QiitaTableCell';
 
 interface Props {
-  tabLabel: string
+  tabLabel: string,
+  onOpenUrl: (url: string)=>void,
 }
 
 interface State {
   isLoading: boolean,
   data: ReadonlyArray<any>,
-  showModal: boolean,
-  webviewUrl: string,
 }
 
 export default class QiitaTable extends React.Component<Props, State> {
   state = {
     isLoading: false,
     data: [],
-    showModal: false,
-    webviewUrl: "",
   }
   
   componentDidMount() {
@@ -52,11 +47,12 @@ export default class QiitaTable extends React.Component<Props, State> {
   }
 
   _onPressItem(url: string) {
-    const replace = /http:/;
-    this.setState({
-      showModal: true,
-      webviewUrl: url.replace(replace, "https:")
-    });
+    // const replace = /http:/;
+    // this.setState({
+    //   showModal: true,
+    //   webviewUrl: url.replace(replace, "https:")
+    // });
+    this.props.onOpenUrl(url.replace(/http:/, "https:"));
   }
   
   render() {
@@ -72,23 +68,13 @@ export default class QiitaTable extends React.Component<Props, State> {
     }
 
     return (
-      <View>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.showModal}
-          onRequestClose={() => {alert("Modal has been closed.")}}
-          >
-          <WebView source={{uri: this.state.webviewUrl}} />
-        </Modal>
-        <FlatList
-          data={this.state.data}
-          keyExtractor={(item: any, index: number) => item.id}
-          renderItem={({item}) => 
-            <QiitaTableCell item={item} onPressTitle={(url)=>this._onPressItem(url)} />
-          }
-        />
-      </View>
+      <FlatList
+        data={this.state.data}
+        keyExtractor={(item: any, index: number) => item.id}
+        renderItem={({item}) => 
+          <QiitaTableCell item={item} onPressTitle={(url)=>this._onPressItem(url)} />
+        }
+      />
     );
   }
 }
